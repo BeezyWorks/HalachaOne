@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/topHalf"
+        android:layout_width="match_parent"
+        android:layout_height="178dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/primary"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/status_bar_height">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:text="@string/timeLearnedString"
+            android:textColor="@android:color/primary_text_dark" />
+
+        <TextView
+            android:id="@+id/statBox"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="2 Days 7 Hours"
+            android:textColor="@android:color/primary_text_dark"
+            android:textSize="35sp" />
+
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_below="@+id/topHalf"
+        android:id="@+id/switchLayout"
+        android:background="@color/primary"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notificationSwitch"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/notificationText" />
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/shareButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/switchLayout"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="-32dp"
+        android:background="@color/accent"
+        android:src="@drawable/ic_share_variant" />
+    <FrameLayout
+        android:id="@+id/goalCircleFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/switchLayout"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/activity_horizontal_margin" />
+
+
+
+</RelativeLayout>

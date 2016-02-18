@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="left"
+    android:orientation="vertical"
+    android:background="@color/background_floating_material_light"
+    android:id="@+id/leftDrawerLinearLayout">
+
+
+
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="wrap_content"
+        android:focusable="false"
+        android:background="@android:color/transparent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="1dp" />
+</RelativeLayout>

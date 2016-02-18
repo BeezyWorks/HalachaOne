@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Halacha</string>
+    <string name="aboutString">About</string>
+    <string name="versionString">"Version "</string>
+    <string name="about_paragraph">Lorem ipsum dolor sit amet, an offendit adolescens nec. Purto consul te vis, posse tantas officiis at duo. Unum corpora te nam. Quaeque ponderum pri in, eos ex alterum docendi. Regione mediocritatem ea eam, sed dolore epicuri cu, at altera albucius consequat sit. Summo persius periculis sed te.
+
+His ad facete pertinax. Ea amet sententiae nec. Iudico eruditi commune ex vel, no has brute accusam, postea everti pericula at eum. Te pro soleat verear contentiones. Per errem ubique equidem te, justo eripuit vis id.
+
+Summo utinam mollis in pro, eos offendit oporteat platonem an, ius aeterno eleifend ut. Id ius alii nemore, nec ex tation reprimique. In quis constituto eum, ne illum phaedrum pro. Pri mollis moderatius intellegebat et, no cum graeco utroque facilisis. Ad pri illum oporteat philosophia, id duo labores iracundia definitiones, sint mutat deterruisset an duo. An vel aperiri feugiat, at inani delicata his, nemore mandamus voluptaria eu ius.
+
+Pro an discere posidonium, cu dico delicatissimi vel. Ne modo ignota nec, eum aperiam suscipiantur in, mea quaestio argumentum cu. Nominati tincidunt ex has. Veri congue vix ei.</string>
+
+    <string name="timeLearnedString">You\'ve learned for</string>
+    <string name="statsString">Stats</string>
+    <string name="myGoalString">My Goal</string>
+    <string name="dailyGoalString">"Daily Goal: "</string>
+    <string name="minString">" min"</string>
+    <string name="saveString">Save</string>
+    <string name="contactString">Contact</string>
+
+    <string name="goalMetTitle">Shkoyach!</string>
+
+    <string name="goalMetMessage">You\'ve met your goal for today.</string>
+    <string name="goalExceededMessage">You\'ve learned passed your goal today.</string>
+    <string name="goalVeryExcededMessage">Way to Shteig!</string>
+    <string name="almostThereText">You\'re only %1$d minutes from your goal!</string>
+    <string name="goalExceededText">You\'ve learned %1$d extra minutes!</string>
+    <string name="farExceededText">You\'ve learned %1$d extra minutes today!</string>
+    <string name="goalMetText">You\'ve met your goal today, way to go!</string>
+    <string name="chizukText">Don\'t forget to make some time today to meet your goal!</string>
+
+
+    <string name="notificationSwitchTextEnabled">Notifications Enabled</string>
+    <string name="notificationSwitchTextDisabled">Notifications Disabled</string>
+</resources>

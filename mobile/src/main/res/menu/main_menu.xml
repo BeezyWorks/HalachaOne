@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/displayOptions"
+        android:icon="@drawable/ic_invert_colors"
+        android:title="Display Options"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/stats"
+        android:title="@string/statsString"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/aboutOption"
+        android:title="@string/aboutString"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/contactUs"
+        android:title="@string/contactString"
+        app:showAsAction="never"/>
+
+</menu>

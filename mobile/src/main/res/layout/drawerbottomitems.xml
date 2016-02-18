@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical">
+
+   <include layout="@layout/divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:background="?android:selectableItemBackground"
+        android:id="@+id/displayOptionsBar">
+
+
+        <ImageView
+            android:id="@+id/bottomItemImage"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:tint="@color/secondary_text_default_material_light"
+            android:layout_marginLeft="16dp" />
+
+        <TextView
+            android:id="@+id/bottomItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="32dp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+</LinearLayout>

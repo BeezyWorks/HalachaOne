@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="typefaceKey">typefaceKey</string>
+    <string name="styleKey">key:style</string>
+    <string name="sizeKey">key:size</string>
+    <string name="centeredKey">key:centered</string>
+
+    <string name="longpressKey">longpress:key</string>
+    <string name="doubleTapKey">doubletap:key</string>
+
+    <string name="goalTimeKey">key_goaltime</string>
+
+    <string name="show_goal_notifications_key">key_shownotificaions</string>
+
+    <string-array name="typefaceChoices">
+        <item>TaameyFrankCLM.ttf</item>
+        <item>DavidCLM-Medium.ttf</item>
+        <item>HadasimCLM-Regular.ttf</item>
+        <item>Mekorot-Vilna.ttf</item>
+    </string-array>
+</resources>

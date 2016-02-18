@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mattaniah.wisechildhalacha">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.mattaniah.wisechildhalacha.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.mattaniah.wisechildhalacha.permission.C2D_MESSAGE" />
+
+    <application
+        android:name=".HalachaApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.mattaniah.wisechildhalacha.activities.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.LaunchTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.StatsActivity" />
+
+        <service android:name=".services.GoalNotificationService" />
+        <receiver android:name=".recievers.BootReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.parse.PushService" />
+
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.mattaniah.wisechildhalacha" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".goaltracking.GoalWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/goal_widget_data" />
+        </receiver>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="732375dcd9d0314338d687e94244fa7c514aa3d2" />
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="qnXfnKMZCz6Xv9m6cQGD6a6AskFfMK5cdS1ACRgt" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="1EZ5ZkPSajN0Q5ZtTOI4VzxwDJeiiH6DDeWuw9Hz" />
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/ic_launcher_notification" />
+    </application>
+</manifest>
