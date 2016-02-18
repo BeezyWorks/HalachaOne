@@ -33,10 +33,11 @@ import android.widget.TextView;
 import com.mattaniah.wisechildhalacha.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Mattaniah on 7/16/2015.
+ * Created by Beezy Works Studios on 7/16/2015.
  */
 public class ViewUtil {
     Activity context;
@@ -124,9 +125,9 @@ public class ViewUtil {
     public float getTextSize() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String key = context.getString(R.string.sizeKey);
-        float size = 25f;
+        float size;
         try {
-            size = Float.parseFloat(sharedPref.getString(key, "30"));
+            size = Float.parseFloat(sharedPref.getString(key, "25"));
         } catch (NumberFormatException ex) {
             sharedPref.edit().putString(key, "25").apply();
             return getTextSize();
@@ -284,7 +285,7 @@ public class ViewUtil {
 
         TextView textView = (TextView) rowView.findViewById(R.id.bottomItemTitle);
         textView.setText(title);
-        textView.setTextColor(context.getResources().getColorStateList(isStyleDark() ? R.color.listviewtext_dark : R.color.listviewtext_light));
+        textView.setTextColor(ContextCompat.getColorStateList(context, isStyleDark() ? R.color.listviewtext_dark : R.color.listviewtext_light));
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.bottomItemImage);
         imageView.setImageDrawable(drawable);
@@ -320,7 +321,8 @@ public class ViewUtil {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        versionNumber.setText(context.getString(R.string.versionString)+info.versionName);
+        assert info != null;
+        versionNumber.setText(String.format("%s%s", context.getString(R.string.versionString), info.versionName));
 
         new AlertDialog.Builder(context)
                 .setView(aboutDialog)
@@ -333,15 +335,13 @@ public class ViewUtil {
         mainLL.setOrientation(LinearLayout.VERTICAL);
         int padding = (int) context.getResources().getDimension(R.dimen.activity_horizontal_margin);
         mainLL.setPadding(padding, padding / 2, padding, padding / 2);
-        Resources res = context.getResources();
 
         List<String> fontList = new ArrayList<>();
-        for (String string : typefaces)
-            fontList.add(string);
+        Collections.addAll(fontList, typefaces);
         mainLL.addView(getSpinnerOption(context.getString(R.string.typefaceKey), fontList, "Typeface"));
 
         //add theme spinner
-        List<String> themeList = new ArrayList<String>();
+        List<String> themeList = new ArrayList<>();
         for (Style theme : ViewUtil.Style.values())
             themeList.add(theme.getThemeName());
         mainLL.addView(getSpinnerOption(context.getString(R.string.styleKey), themeList, "Style"));
@@ -364,7 +364,7 @@ public class ViewUtil {
         Spinner spinner = (Spinner) retView.findViewById(R.id.optionSpinner);
         TextView textView = (TextView) retView.findViewById(R.id.optionTitle);
         textView.setText(Title);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_1,
                 values);
         spinner.setAdapter(adapter);

@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
             tabLayout.addTab(newTab);
         }
         tabLayout.setOnTabSelectedListener(this);
+        //noinspection ConstantConditions
         tabLayout.getTabAt(currentBook.ordinal()).select();
         subnavigationFragment.setSection(section);
         settingsUtil.saveDefaultSection(section);
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
     public void swipeLeftToRight() {
         if (currentBook.ordinal() > 0) {
             currentBook = Book.values()[currentBook.ordinal() - 1];
+            //noinspection ConstantConditions
             tabLayout.getTabAt(currentBook.ordinal()).select();
         }
     }
@@ -207,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
     public void swipeRightToLeft() {
         if (currentBook.ordinal() < Book.values().length) {
             currentBook = Book.values()[currentBook.ordinal() + 1];
+            //noinspection ConstantConditions
             tabLayout.getTabAt(currentBook.ordinal()).select();
         }
     }
