@@ -97,7 +97,7 @@ public class GoalNotifications {
         Intent adjustGoalIntent = new Intent(context, StatsActivity.class);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-        builder.setSmallIcon(R.drawable.ic_launcher_notification)
+        builder.setSmallIcon(R.drawable.white_notification_icon)
                 .setContentIntent(PendingIntent.getActivity(context, 0, launchIntent, 0))
                 .setColor(ContextCompat.getColor(context, R.color.primary))
                 .addAction(new NotificationCompat.Action.Builder(
