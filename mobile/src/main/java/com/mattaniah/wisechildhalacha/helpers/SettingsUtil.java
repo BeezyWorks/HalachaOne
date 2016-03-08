@@ -1,5 +1,6 @@
 package com.mattaniah.wisechildhalacha.helpers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -30,16 +31,30 @@ public class SettingsUtil {
         return Sections.defaultSection;
     }
 
-    public void saveDefaultSection(Sections sections){
+    public void saveDefaultSection(Sections sections) {
         sharedPreferences.edit().putString(Sections.key, sections.getName()).apply();
     }
 
-    public boolean isGoalNotificaitonEnabled(){
+    public boolean isGoalNotificaitonEnabled() {
         return sharedPreferences.getBoolean(context.getString(R.string.show_goal_notifications_key), true);
     }
 
-    public void setGoalNotificationEnabled(boolean enabled){
+    public void setGoalNotificationEnabled(boolean enabled) {
         sharedPreferences.edit().putBoolean(context.getString(R.string.show_goal_notifications_key), enabled).apply();
+    }
+
+    public int getGoalTime() {
+        int goalTime = sharedPreferences.getInt(context.getString(R.string.goalTimeKey), 15);
+        if (goalTime < 1)
+            setGoalTime(15);
+        else
+            return goalTime;
+        return getGoalTime();
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    public void setGoalTime(int goalTime) {
+        sharedPreferences.edit().putInt(context.getString(R.string.goalTimeKey), goalTime).commit();
     }
 
 }

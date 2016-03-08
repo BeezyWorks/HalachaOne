@@ -22,14 +22,13 @@ import com.mattaniah.wisechildhalacha.goaltracking.GoalNotifications;
 import com.mattaniah.wisechildhalacha.goaltracking.GoalView;
 import com.mattaniah.wisechildhalacha.goaltracking.TimeTracker;
 import com.mattaniah.wisechildhalacha.helpers.SettingsUtil;
-import com.parse.ParseUser;
 
 
 public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
 
     GoalView goalView;
-    ParseUser user;
     TimeTracker timeTracker;
+    SettingsUtil settingsUtil;
 
     @SuppressLint("PrivateResource")
     @Override
@@ -41,12 +40,9 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
         notificationManager.cancel(GoalNotifications.goalNotiId);
 
         timeTracker = new TimeTracker(this);
+        settingsUtil=new SettingsUtil(this);
 
-        user = ParseUser.getCurrentUser();
-        if (!user.has(getString(R.string.goalTimeKey)))
-            user.put(getString(R.string.goalTimeKey), 20);
-
-        goalView = new GoalView(this, user.getInt(getString(R.string.goalTimeKey)), timeTracker.getTimeSoFarToday());
+        goalView = new GoalView(this, settingsUtil.getGoalTime(), timeTracker.getTimeSoFarToday());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.stats_menu);
@@ -120,11 +116,12 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
     }
 
     private void setGoal() {
-        View layoutView = getLayoutInflater().inflate(R.layout.number_picker, null);
+        FrameLayout parent = new FrameLayout(this);
+        View layoutView = getLayoutInflater().inflate(R.layout.number_picker, parent, false);
         TextInputLayout inputLayout = (TextInputLayout) layoutView.findViewById(R.id.inputLayout);
         final EditText numberPicker = (EditText) inputLayout.findViewById(R.id.editText);
         inputLayout.setHint(getString(R.string.myGoalString));
-        numberPicker.setText(String.valueOf(user.getInt(getString(R.string.goalTimeKey))));
+        numberPicker.setText(String.valueOf(settingsUtil.getGoalTime()));
 
         new AlertDialog.Builder(this)
                 .setView(layoutView)
@@ -134,8 +131,7 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
                         int newNumber = Integer.valueOf(numberPicker.getText().toString());
                         if (newNumber < 1)
                             newNumber = 1;
-                        user.put(getString(R.string.goalTimeKey), newNumber);
-                        user.saveInBackground(null);
+                        settingsUtil.setGoalTime(newNumber);
                         goalView.setGoalMinutes(newNumber);
                         timeTracker.notifiyWidgetUpdate();
                     }

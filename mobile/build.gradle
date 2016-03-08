@@ -52,8 +52,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.+'
     compile 'com.google.android.gms:play-services:8.+'
     compile 'com.android.support:appcompat-v7:23.+'
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile 'com.parse:parse-android:1.+'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }

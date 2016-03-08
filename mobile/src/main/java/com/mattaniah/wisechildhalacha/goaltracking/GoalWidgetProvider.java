@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 
 import com.mattaniah.wisechildhalacha.R;
 import com.mattaniah.wisechildhalacha.activities.StatsActivity;
-import com.parse.ParseUser;
+import com.mattaniah.wisechildhalacha.helpers.SettingsUtil;
 
 /**
  * Created by Mattaniah on 1/21/2016.
@@ -19,10 +19,7 @@ import com.parse.ParseUser;
 public class GoalWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
-
-
-        GoalView myView =  new GoalView(context, ParseUser.getCurrentUser().getInt(context.getString(R.string.goalTimeKey)),new TimeTracker(context).getTimeSoFarToday());
+        GoalView myView = new GoalView(context, new SettingsUtil(context).getGoalTime(), new TimeTracker(context).getTimeSoFarToday());
         myView.setWidgetPaint();
         myView.measure(500, 500);
         myView.layout(0, 0, 500, 500);
@@ -30,9 +27,7 @@ public class GoalWidgetProvider extends AppWidgetProvider {
         myView.draw(new Canvas(bitmap));
 
         // Perform this loop procedure for each App Widget that belongs to this provider
-        for (int i=0; i<N; i++) {
-            int appWidgetId = appWidgetIds[i];
-
+        for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(context, StatsActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 

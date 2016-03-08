@@ -25,7 +25,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Mattaniah on 7/20/2015.
@@ -61,7 +60,7 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
         simanim = section.getJSONArray(context, book);
         hFat.setUseGershGershayim(false);
         simanNames = context.getResources().getStringArray(R.array.siman_names);
-        Map<Integer, Map> sectionBookmarks = BookmarkManager.getInstance().getBookmarksForSection(section, book);
+//        Map<Integer, Map<Integer, String>> sectionBookmarks = BookmarkManager.getInstance().getBookmarksForSection(section, book);
 
         try {
             for (int i = 0; i < simanim.length(); i++) {
@@ -69,10 +68,10 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
                 dataSet.add(simanHeader);
                 simanHeaders.add(simanHeader);
                 JSONArray simanArray = simanim.getJSONArray(i);
-                Map simanBookmarks = sectionBookmarks.get(i + section.getFirstSiman());
+//                Map simanBookmarks = sectionBookmarks.get(i + section.getFirstSiman());
                 for (int j = 0; j < simanArray.length(); j++) {
                     SeifHeader seifHeader = new SeifHeader(i + section.getFirstSiman(), j);
-                    seifHeader.isBookmarked = simanBookmarks != null && simanBookmarks.containsKey(j);
+//                    seifHeader.isBookmarked = simanBookmarks != null && simanBookmarks.containsKey(j);
                     seifHeaders.add(seifHeader);
                     dataSet.add(seifHeader);
                     dataSet.add(simanArray.getString(j));
@@ -169,7 +168,6 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
         public SeifHeaderViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.seif_textview);
-
             textView.setTextColor(viewUtil.getSeifHeaderTextColor());
 
         }
@@ -178,13 +176,13 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
             this.seif = seif;
             textView.setText(seif.getSeifName());
             textView.setOnClickListener(this);
-            setIsBookmarked(seif.isBookmarked);
+            setIsBookmarked(seif.isBookmarked());
         }
 
         @Override
         public void onClick(View v) {
-            setIsBookmarked(!seif.isBookmarked);
-            toggleBookmarked(!seif.isBookmarked);
+            setIsBookmarked(!seif.isBookmarked());
+            toggleBookmarked(!seif.isBookmarked());
         }
 
         private void setIsBookmarked(boolean isBookmarked) {
@@ -291,7 +289,6 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
 
     public class SeifHeader {
         int seif;
-        boolean isBookmarked;
         int siman;
 
         public SeifHeader(int siman, int seif) {
@@ -304,13 +301,15 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
         }
 
         public void addBookmark() {
-            this.isBookmarked = true;
             BookmarkManager.getInstance().addBookmark(section, book, siman, seif, " ");
         }
 
         public void removeBookmark() {
-            this.isBookmarked = false;
             BookmarkManager.getInstance().removeBookmark(section, book, siman, seif);
+        }
+
+        public boolean isBookmarked()        {
+            return BookmarkManager.getInstance().isSeifBookmarked(section, book, siman, seif);
         }
 
 

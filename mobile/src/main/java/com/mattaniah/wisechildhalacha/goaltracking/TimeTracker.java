@@ -1,25 +1,21 @@
 package com.mattaniah.wisechildhalacha.goaltracking;
 
+import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.mattaniah.wisechildhalacha.R;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mattaniah.wisechildhalacha.helpers.SettingsUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -27,58 +23,55 @@ import java.util.Map;
  */
 public class TimeTracker {
     Context context;
+    SharedPreferences sharedPreferences;
     public static String TotalTimeKey = "key_timeinapp";
     public static String DaysKey = "key_days";
 
     public TimeTracker(Context context) {
         this.context = context;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    public long getTotalTime() {
+        return sharedPreferences.getLong(TotalTimeKey, 0);
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    public void putTotalTime(long totalTime) {
+        sharedPreferences.edit().putLong(TotalTimeKey, totalTime).commit();
+    }
+
+    @SuppressLint("CommitPrefEdits")
     public void addTime(long timeOpened) {
-        ParseUser user = ParseUser.getCurrentUser();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (sharedPreferences.contains(TotalTimeKey)) {
-            user.put(TotalTimeKey, sharedPreferences.getLong(TotalTimeKey, 0));
-            sharedPreferences.edit().remove(TotalTimeKey).apply();
-        }
-
-        long savedTime = user.getLong(TotalTimeKey);
+        long savedTime = getTotalTime();
         savedTime += (Calendar.getInstance().getTimeInMillis() - timeOpened);
-        user.put(TotalTimeKey, savedTime);
+        putTotalTime(savedTime);
 
-        Map<String, Object> daysMap = getTimeForDaysMap();
+        Map<String, Integer> daysMap = getTimeForDaysMap();
         int timeSoFarToday = getTimeSoFarToday();
         timeSoFarToday += (Calendar.getInstance().getTimeInMillis() - timeOpened) / 1000;
         daysMap.put(getTodayKey(), timeSoFarToday);
 
-        user.put(DaysKey, daysMap);
+        sharedPreferences.edit().putString(DaysKey, new Gson().toJson(daysMap)).commit();
 
-        user.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("Save Time", "success");
-                    notifiyWidgetUpdate();
-                } else
-                    Log.d("Save Time", e.toString());
-            }
-        });
+
+        notifiyWidgetUpdate();
     }
 
-    public boolean goalMetToday(){
-        return ParseUser.getCurrentUser().getInt(context.getString(R.string.goalTimeKey))<=getTimeSoFarToday();
+    public boolean goalMetToday() {
+        return new SettingsUtil(context).getGoalTime() <= getTimeSoFarToday();
     }
 
     public int getTimeSoFarToday() {
-        Map<String, Object> dayTimeMap = getTimeForDaysMap();
+        Map<String, Integer> dayTimeMap = getTimeForDaysMap();
         String todayKey = getTodayKey();
-        Integer mInt= (Integer) dayTimeMap.get(todayKey);
-        return mInt==null? 0: mInt;
+        Integer mInt =  dayTimeMap.get(todayKey);
+        return mInt == null ? 0 : mInt;
     }
 
     protected static String getTodayKey() {
         Calendar calendar = Calendar.getInstance();
-        return new SimpleDateFormat("dd_MM_yy").format(calendar.getTime());
+        return new SimpleDateFormat("dd_MM_yy", Locale.US).format(calendar.getTime());
     }
 
     public void notifiyWidgetUpdate() {
@@ -91,32 +84,19 @@ public class TimeTracker {
         context.sendBroadcast(intent);
     }
 
-    public long getMilisLearned() {
-        return ParseUser.getCurrentUser().getLong(TotalTimeKey);
-    }
-
-
-    private Map<String, Object> getTimeForDaysMap() {
-       ParseUser user = ParseUser.getCurrentUser();
-        Map retMapt = user.getMap(DaysKey);
-        return retMapt==null? new HashMap<>():retMapt;
-    }
-
-    private Map<String, Object> toMap(JSONObject object) throws JSONException {
-        Map<String, Object> map = new HashMap<>();
-
-        Iterator<String> keysItr = object.keys();
-        while (keysItr.hasNext()) {
-            String key = keysItr.next();
-            Object value = object.get(key);
-            map.put(key, value);
-        }
-        return map;
+    private Map<String, Integer> getTimeForDaysMap() {
+        Map<String, Integer> retMap = new HashMap<>();
+        String jsonString = sharedPreferences.getString(DaysKey, null);
+        if (jsonString == null)
+            jsonString = new Gson().toJson(retMap);
+        retMap = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Integer>>() {
+        }.getType());
+        return retMap == null ? new HashMap<String, Integer>() : retMap;
     }
 
 
     public String getTotalTimeAsString() {
-        long timeInMilliSeconds = getMilisLearned();
+        long timeInMilliSeconds = getTotalTime();
 
         long seconds = timeInMilliSeconds / 1000;
         long minutes = seconds / 60;
@@ -139,7 +119,6 @@ public class TimeTracker {
             builder.append(secondsString).append(" seconds");
         return builder.toString();
     }
-
 
 
 }

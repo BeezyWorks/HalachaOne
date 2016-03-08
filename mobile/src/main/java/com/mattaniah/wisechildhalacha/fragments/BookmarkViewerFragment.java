@@ -46,7 +46,7 @@ public class BookmarkViewerFragment extends Fragment {
         hebrewDateFormatter.setUseGershGershayim(false);
         this.book = book;
         for (Sections sections : Sections.values()) {
-            Map<Integer, Map> markedSimanim = BookmarkManager.getInstance().getBookmarksForSection(sections, book);
+            Map<Integer, Map<Integer, String>> markedSimanim = BookmarkManager.getInstance().getBookmarksForSection(sections, book);
             if (!markedSimanim.isEmpty())
                 bookmarkedSections.put(sections, markedSimanim);
         }

@@ -12,7 +12,6 @@ import com.mattaniah.wisechildhalacha.R;
 import com.mattaniah.wisechildhalacha.activities.MainActivity;
 import com.mattaniah.wisechildhalacha.activities.StatsActivity;
 import com.mattaniah.wisechildhalacha.helpers.SettingsUtil;
-import com.parse.ParseUser;
 
 /**
  * Created by Mattaniah on 1/24/2016.
@@ -22,7 +21,7 @@ public class GoalNotifications {
     NotificationManagerCompat notificationManager;
     public static final int goalNotiId = 22;
 
-    private final String goalMetKey = "goalMet";
+//    private final String goalMetKey = "goalMet";
 
     public GoalNotifications(Context context) {
         this.context = context;
@@ -36,7 +35,7 @@ public class GoalNotifications {
         TimeTracker timeTracker = new TimeTracker(context);
 
         float timeSoFarToday = timeTracker.getTimeSoFarToday();
-        float goalSetTime = ParseUser.getCurrentUser().getInt(context.getString(R.string.goalTimeKey)) * 60;
+        float goalSetTime = new SettingsUtil(context).getGoalTime() * 60;
         float percent = (timeSoFarToday * 100.0f) / goalSetTime;
         int timeLeft = (int) (goalSetTime - timeSoFarToday) / 60;
         NotificationCompat.Builder notificationBuilder = getBasicNotification();

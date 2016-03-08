@@ -35,7 +35,7 @@ public class SeifListAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View retView = viewUtil.getRowView(seifHeaders.get(position).getSeifName(), ContextCompat.getDrawable(getContext(), R.drawable.ic_bookmark_outline), LayoutInflater.from(getContext()), parent);
         ImageView bookmarkButton = (ImageView) retView.findViewById(R.id.bottomItemImage);
-        if (seifHeaders.get(position).isBookmarked){
+        if (seifHeaders.get(position).isBookmarked()){
             bookmarkButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_bookmark));
             bookmarkButton.setColorFilter(viewUtil.getBookmarkedColor());
         }

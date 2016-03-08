@@ -7,9 +7,6 @@ import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.mattaniah.wisechildhalacha.bookmarking.BookmarkManager;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
-import com.parse.ParseUser;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -29,13 +26,7 @@ public class HalachaApplication extends Application {
         super.onCreate();
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "qnXfnKMZCz6Xv9m6cQGD6a6AskFfMK5cdS1ACRgt", "1EZ5ZkPSajN0Q5ZtTOI4VzxwDJeiiH6DDeWuw9Hz");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-        ParseUser.enableAutomaticUser();
-        ParseUser.getCurrentUser().increment("RunCount");
-        ParseUser.getCurrentUser().saveInBackground();
-        BookmarkManager.getInstance().initialize(this);
+         BookmarkManager.getInstance().initialize(this);
 
     }
 }
