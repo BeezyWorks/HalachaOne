@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.mattaniah.wisechildhalacha.bookmarking.BookmarkManager;
 
 import io.fabric.sdk.android.Fabric;
@@ -25,8 +24,8 @@ public class HalachaApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
-         BookmarkManager.getInstance().initialize(this);
+        Fabric.with(this, new Crashlytics());
+        BookmarkManager.getInstance().initialize(this);
 
     }
 }

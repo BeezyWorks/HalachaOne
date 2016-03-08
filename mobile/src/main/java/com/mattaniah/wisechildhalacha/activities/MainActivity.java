@@ -33,6 +33,7 @@ import com.mattaniah.wisechildhalacha.helpers.MyGestureDetector;
 import com.mattaniah.wisechildhalacha.helpers.Sections;
 import com.mattaniah.wisechildhalacha.helpers.SettingsUtil;
 import com.mattaniah.wisechildhalacha.helpers.ViewUtil;
+import com.pushbots.push.Pushbots;
 
 import net.sourceforge.zmanim.hebrewcalendar.HebrewDateFormatter;
 
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-
+        Pushbots.sharedInstance().init(this);
         setContentView(R.layout.activity_main);
         settingsUtil = new SettingsUtil(this);
         viewUtil = new ViewUtil(this);
