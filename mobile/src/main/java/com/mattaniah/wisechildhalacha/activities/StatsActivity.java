@@ -1,5 +1,6 @@
 package com.mattaniah.wisechildhalacha.activities;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
     ParseUser user;
     TimeTracker timeTracker;
 
+    @SuppressLint("PrivateResource")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
         toolbar.inflateMenu(R.menu.stats_menu);
         toolbar.setOnMenuItemClickListener(this);
         toolbar.setTitle(getString(R.string.app_name) + " " + getString(R.string.statsString));
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

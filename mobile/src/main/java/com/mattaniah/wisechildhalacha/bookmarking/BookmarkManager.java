@@ -1,7 +1,11 @@
 package com.mattaniah.wisechildhalacha.bookmarking;
 
+import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mattaniah.wisechildhalacha.helpers.Book;
 import com.mattaniah.wisechildhalacha.helpers.Sections;
 import com.parse.ParseException;
@@ -19,84 +23,64 @@ public class BookmarkManager {
 
     private final String parseBookmarkKey = "bookmarks";
 
-    public static final String sectionKey = "section";
-    public static final String simanKey = "siman";
-    public static final String seifKey = "seif";
-    public static final String bookKey = "book";
-
-    private Map<String, Object> allBookmarks;
+    private Map<Sections, Object> allBookmarks;
 
 
     private static final String TAG = "bookmarks_manager";
 
 
-    private static BookmarkManager ourInstance = new BookmarkManager();
+    private static BookmarkManager instance = new BookmarkManager();
 
     public static BookmarkManager getInstance() {
-        return ourInstance;
+        return instance;
     }
 
-
-    private BookmarkManager() {
-        allBookmarks = parseUser.getMap(parseBookmarkKey);
+    public void initialize(Context context){
+       allBookmarks= new Gson().fromJson(PreferenceManager.getDefaultSharedPreferences(context).getString(parseBookmarkKey, null),new TypeToken<HashMap<Sections, Map<Book, Map<Integer, Map<Integer, String>>>>>() {}.getType());
         if (allBookmarks == null) {
             allBookmarks = new HashMap<>();
         }
     }
 
-    public Map<String, Map> getBookmarksForSection(Sections section, Book book) {
-        Map<String, Map> sectionBookmarks = (Map<String, Map>) allBookmarks.get(getSectionKey(section));
+    public Map<Integer, Map> getBookmarksForSection(Sections section, Book book) {
+        Map<Book, Map> sectionBookmarks = (Map<Book, Map>) allBookmarks.get(section);
         if (sectionBookmarks == null) {
             sectionBookmarks = new HashMap<>();
-            allBookmarks.put(getSectionKey(section), sectionBookmarks);
+            allBookmarks.put(section, sectionBookmarks);
         }
-        Map<String, Map> bookBookmarks = sectionBookmarks.get(getBookKey(book));
+        Map<Integer, Map> bookBookmarks = sectionBookmarks.get(book.getName());
         if (bookBookmarks == null) {
             bookBookmarks = new HashMap<>();
-            sectionBookmarks.put(getBookKey(book), bookBookmarks);
+            sectionBookmarks.put(book, bookBookmarks);
         }
         return bookBookmarks;
     }
 
 
-    public Map<String, String> getBookmarksForSiman(Sections section, Book book, int siman) {
-        Map<String, String> retMap = getBookmarksForSection(section, book).get(getSimanKey(siman));
+    public Map<Integer, String> getBookmarksForSiman(Sections section, Book book, int siman) {
+        Map<Integer, String> retMap = getBookmarksForSection(section, book).get(siman);
         if (retMap == null) {
             retMap = new HashMap<>();
-            getBookmarksForSection(section, book).put(getSimanKey(siman), retMap);
+            getBookmarksForSection(section, book).put(siman, retMap);
         }
         return retMap;
     }
 
     public void addBookmark(Sections section, Book book, int siman, int seif, String bookMark) {
-        Map<String, String> simanBookmarks = getBookmarksForSiman(section, book, siman);
-        simanBookmarks.put(getSeifKey(seif), bookMark);
+        Map<Integer, String> simanBookmarks = getBookmarksForSiman(section, book, siman);
+        simanBookmarks.put(seif, bookMark);
     }
 
     public void removeBookmark(Sections section, Book book, int siman, int seif) {
-        Map<String, String> simanBookmarks = getBookmarksForSiman(section, book, siman);
-        if (simanBookmarks != null && simanBookmarks.containsKey(getSeifKey(seif)))
-            simanBookmarks.remove(getSeifKey(seif));
+        Map<Integer, String> simanBookmarks = getBookmarksForSiman(section, book, siman);
+        if (simanBookmarks != null && simanBookmarks.containsKey(seif))
+            simanBookmarks.remove(seif);
     }
 
-    public static String getSectionKey(Sections section) {
-        return sectionKey + section.getName();
-    }
-
-    public static String getBookKey(Book book) {
-        return bookKey + book.getName();
-    }
-
-    public static String getSimanKey(int Siman) {
-        return simanKey + Siman;
-    }
-
-    public static String getSeifKey(int Seif) {
-        return seifKey + Seif;
-    }
-
-    public void saveBookmarks() {
-        commitToParse();
+    public void saveBookmarks(Context context) {
+//        commitToParse();
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putString(parseBookmarkKey, new Gson().toJson(allBookmarks)).apply();
     }
 
     private void commitToParse() {

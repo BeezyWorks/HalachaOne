@@ -34,6 +34,8 @@
 
         <activity android:name=".activities.StatsActivity" />
 
+        <activity android:name=".activities.BookmarksActivity"/>
+
         <service android:name=".services.GoalNotificationService" />
         <receiver android:name=".recievers.BootReciever">
             <intent-filter>

@@ -1,6 +1,9 @@
 package com.mattaniah.wisechildhalacha.adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
@@ -28,6 +31,7 @@ import java.util.Map;
  * Created by Mattaniah on 7/20/2015.
  */
 public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecyclerAdapter.HalachaViewHolder> {
+    Context context;
     private HostActivity hostActivity=null;
     private final Sections section;
     private final Book book;
@@ -50,13 +54,14 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
     public HalachaRecyclerAdapter(Activity context, Sections section, Book book) {
         if (context instanceof HostActivity)
             this.hostActivity = (HostActivity) context;
+        this.context=context;
         this.section = section;
         this.book = book;
         this.viewUtil = new ViewUtil(context);
         simanim = section.getJSONArray(context, book);
         hFat.setUseGershGershayim(false);
         simanNames = context.getResources().getStringArray(R.array.siman_names);
-        Map<String, Map> sectionBookmarks = BookmarkManager.getInstance().getBookmarksForSection(section, book);
+        Map<Integer, Map> sectionBookmarks = BookmarkManager.getInstance().getBookmarksForSection(section, book);
 
         try {
             for (int i = 0; i < simanim.length(); i++) {
@@ -64,10 +69,10 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
                 dataSet.add(simanHeader);
                 simanHeaders.add(simanHeader);
                 JSONArray simanArray = simanim.getJSONArray(i);
-                Map simanBookmarks = sectionBookmarks.get(BookmarkManager.getSimanKey(i + section.getFirstSiman()));
+                Map simanBookmarks = sectionBookmarks.get(i + section.getFirstSiman());
                 for (int j = 0; j < simanArray.length(); j++) {
                     SeifHeader seifHeader = new SeifHeader(i + section.getFirstSiman(), j);
-                    seifHeader.isBookmarked = simanBookmarks != null && simanBookmarks.containsKey(BookmarkManager.getSeifKey(j));
+                    seifHeader.isBookmarked = simanBookmarks != null && simanBookmarks.containsKey(j);
                     seifHeaders.add(seifHeader);
                     dataSet.add(seifHeader);
                     dataSet.add(simanArray.getString(j));
@@ -113,9 +118,7 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
     }
 
     public abstract class HalachaViewHolder extends RecyclerView.ViewHolder {
-        View itemView;
-
-        public HalachaViewHolder(View itemView) {
+          public HalachaViewHolder(View itemView) {
             super(itemView);
         }
     }
@@ -139,7 +142,7 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
 
         public void setSiman(SimanHeader simanHeader) {
             this.simanHeader = simanHeader;
-            textView.setText("סימן " + hFat.formatHebrewNumber(simanHeader.getSiman()));
+            textView.setText(String.format("סימן %s", hFat.formatHebrewNumber(simanHeader.getSiman())));
             seifCount.setText(seifCount());
         }
 
@@ -160,37 +163,38 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
 
     private class SeifHeaderViewHolder extends HalachaViewHolder implements View.OnClickListener {
         TextView textView;
-        ImageView bookmarkButton;
+//        ImageView bookmarkButton;
         SeifHeader seif;
 
         public SeifHeaderViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.seif_textview);
-            bookmarkButton = (ImageView) itemView.findViewById(R.id.seif_bookmark);
 
-            int color = viewUtil.getSeifHeaderTextColor();
-            textView.setTextColor(color);
-            bookmarkButton.setColorFilter(color);
+            textView.setTextColor(viewUtil.getSeifHeaderTextColor());
+
         }
 
         public void setSeif(SeifHeader seif) {
             this.seif = seif;
             textView.setText(seif.getSeifName());
-            bookmarkButton.setOnClickListener(this);
+            textView.setOnClickListener(this);
             setIsBookmarked(seif.isBookmarked);
         }
 
         @Override
         public void onClick(View v) {
-            bookmarkButton.setImageResource(R.drawable.ic_bookmark);
-            bookmarkButton.setColorFilter(viewUtil.getBookmarkedColor());
             setIsBookmarked(!seif.isBookmarked);
             toggleBookmarked(!seif.isBookmarked);
         }
 
         private void setIsBookmarked(boolean isBookmarked) {
-            bookmarkButton.setColorFilter(isBookmarked ? viewUtil.getBookmarkedColor() : viewUtil.getSeifHeaderTextColor());
-            bookmarkButton.setImageResource(isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
+           @SuppressWarnings("ResourceAsColor") ColorStateList color = ColorStateList.valueOf(isBookmarked ? viewUtil.getBookmarkedColor() : viewUtil.getSeifHeaderTextColor());
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline, 0);
+            textView.setCompoundDrawablePadding((int) context.getResources().getDimension(R.dimen.activity_horizontal_margin));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView.setCompoundDrawableTintList(color);
+            }
+
         }
 
         private void toggleBookmarked(boolean isBookmarked) {
@@ -249,7 +253,6 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
 
         if (itemAtPosition instanceof SeifHeader) {
             ((SeifHeaderViewHolder) holder).setSeif(((SeifHeader) itemAtPosition));
-            return;
         }
 
     }

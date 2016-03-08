@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,9 +24,7 @@
             style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:padding="@dimen/activity_horizontal_margin"
             android:text="@string/timeLearnedString"
             android:textColor="@android:color/primary_text_dark" />
 
@@ -37,7 +35,6 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:text="2 Days 7 Hours"
             android:textColor="@android:color/primary_text_dark"
             android:textSize="35sp" />
 
@@ -55,7 +52,8 @@
         android:layout_below="@+id/topHalf"
         android:id="@+id/switchLayout"
         android:background="@color/primary"
-        android:paddingLeft="@dimen/activity_horizontal_margin">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -79,9 +77,11 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="-32dp"
         android:background="@color/accent"
-        android:src="@drawable/ic_share_variant" />
+        android:src="@drawable/ic_share_variant"
+        app:borderWidth="0dp"/>
     <FrameLayout
         android:id="@+id/goalCircleFrame"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/switchLayout"

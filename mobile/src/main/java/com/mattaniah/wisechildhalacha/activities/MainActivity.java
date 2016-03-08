@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
             new GoalNotifications(this).setRelaventNotification();
         }
 
-        BookmarkManager.getInstance().saveBookmarks();
+        BookmarkManager.getInstance().saveBookmarks(this);
     }
 
     @Override
@@ -273,6 +273,10 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
             case R.id.contactUs:
                 CommonIntents commonIntents = new CommonIntents(this);
                 commonIntents.safeLaunchIntent(commonIntents.contactUsIntent(), "Select Email");
+                return true;
+
+            case R.id.bookmarks:
+                startActivity(new Intent(this, BookmarksActivity.class));
                 return true;
         }
         return false;

@@ -43,6 +43,9 @@ public class GoalView extends View {
         super(context);
         this.context = context;
         this.goalMinutes = goalMinutes;
+        if(this.goalMinutes==0)
+            this.goalMinutes=15;
+
         this.timeToday = timeToday/60;
 
         mPaint.setStrokeCap(Paint.Cap.ROUND);
