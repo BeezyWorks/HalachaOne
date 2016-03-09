@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
 
     private long timeStarted;
 
+    public static final String Extra_Set_Siman = "sentsiman";
+    public static final String Extra_Set_Seif = "sentseif";
+    public static final String Extra_Set_Book = "sentbook";
+    public static final String Extra_Set_Section = "sentsection";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -92,6 +97,26 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
         setSection(settingsUtil.getSavedSection());
         for (BookHolder bookHolder : bookHolders)
             bookHolder.scrollToSaved();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent == null)
+            return;
+        goToIntentSeif(intent.getExtras());
+    }
+
+    private void goToIntentSeif(Bundle extras) {
+        if (extras != null && extras.containsKey(Extra_Set_Siman) && extras.containsKey(Extra_Set_Seif)) {
+            int sentSiman = extras.getInt(Extra_Set_Siman);
+            int sentSeif = extras.getInt(Extra_Set_Seif);
+            currentBook = Book.values()[extras.getInt(Extra_Set_Book)];
+            Sections sentSection = Sections.values()[extras.getInt(Extra_Set_Section)];
+            setSection(sentSection);
+            bookHolders[currentBook.ordinal()].scrollToSeif(sentSiman - sentSection.getFirstSiman(), sentSeif);
+        }
     }
 
     @Override
@@ -104,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
 
         subnavigationFragment.resetColors();
         frameLayout.addView(bookHolders[currentBook.ordinal()].getRecyclerView());
+        navigationFragment.resetColor();
     }
 
     public void setDrawerToggle(Toolbar toolbar) {
@@ -122,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
         };
 
 
-        navigationDrawerLayout.setDrawerListener(drawerToggle);
+        navigationDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
 
@@ -136,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
                     subNavigationDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
-        subNavigationDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+        subNavigationDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
@@ -150,14 +176,20 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
         navigationDrawerLayout.closeDrawer(Gravity.LEFT);
         toolbar.setTitle(section.getName());
         tabLayout.removeAllTabs();
+        tabLayout.setOnTabSelectedListener(null);
         for (Book book : Book.values()) {
             bookHolders[book.ordinal()] = new BookHolder(book, section);
             TabLayout.Tab newTab = tabLayout.newTab().setText(book.getName()).setTag(book);
             tabLayout.addTab(newTab);
         }
-        tabLayout.setOnTabSelectedListener(this);
+
         //noinspection ConstantConditions
-        tabLayout.getTabAt(currentBook.ordinal()).select();
+        tabLayout.setOnTabSelectedListener(this);
+
+        TabLayout.Tab tab = tabLayout.getTabAt(currentBook.ordinal());
+        if (tab != null)
+            tab.select();
+
         subnavigationFragment.setSection(section);
         settingsUtil.saveDefaultSection(section);
     }
@@ -252,11 +284,11 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
         TimeTracker timeTracker = new TimeTracker(this);
         timeTracker.addTime(timeStarted);
 
-        if (timeTracker.goalMetToday()){
+        if (timeTracker.goalMetToday()) {
             new GoalNotifications(this).setRelaventNotification();
         }
 
-        BookmarkManager.getInstance().saveBookmarks(this);
+        BookmarkManager.getInstance().saveBookmarksAsync(this);
     }
 
     @Override
@@ -335,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
 
         public void saveCurrentScrollPosition() {
             int savePosition = linearLayoutManager.findFirstVisibleItemPosition();
-            settingsUtil.getSharedPreferences().edit().putInt(scrollKey, savePosition).apply();
+            settingsUtil.getSharedPreferences().edit().putInt(scrollKey, savePosition).commit();
         }
 
         public void scrollToSaved() {
@@ -349,8 +381,8 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
 
         public void showSeifPicker(final int relativeSiman) {
             ListView listView = viewUtil.getSimpleListView();
-
             listView.setAdapter(new SeifListAdapter(MainActivity.this, adapter.getSeifimForSiman(relativeSiman)));
+            listView.setBackgroundColor(viewUtil.getBackgroundBlackOrWhite());
             final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
                     .setView(listView)
                     .setNegativeButton("Dismiss", null)
@@ -363,7 +395,6 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
                     subNavigationDrawerLayout.closeDrawer(Gravity.RIGHT);
                 }
             });
-
             alertDialog.show();
         }
 

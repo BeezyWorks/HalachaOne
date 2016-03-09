@@ -1,5 +1,6 @@
 package com.mattaniah.wisechildhalacha.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -15,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mattaniah.wisechildhalacha.R;
 import com.mattaniah.wisechildhalacha.helpers.HostActivity;
 import com.mattaniah.wisechildhalacha.helpers.Sections;
-import com.mattaniah.wisechildhalacha.R;
 import com.mattaniah.wisechildhalacha.helpers.ViewUtil;
 
 /**
@@ -46,7 +47,7 @@ public class NavigationDrawerFragment extends Fragment {
         list.addHeaderView(headerView);
         list.setAdapter(new Adapter());
         list.setDividerHeight(0);
-        list.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.background_floating_material_light));
+        list.setBackgroundColor(new ViewUtil(getActivity()).getBackgroundBlackOrWhite());
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
 
@@ -58,10 +59,13 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-
-
-
         return list;
+    }
+
+    public void resetColor(){
+        ViewUtil viewUtil = new ViewUtil(getActivity());
+        list.setBackgroundColor(viewUtil.getBackgroundBlackOrWhite());
+        list.setAdapter(new Adapter());
     }
 
     class Adapter extends ArrayAdapter {
@@ -72,7 +76,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getActivity().getLayoutInflater().inflate(R.layout.navigation_item, parent, false);
+            @SuppressLint("ViewHolder") View view = getActivity().getLayoutInflater().inflate(R.layout.navigation_item, parent, false);
             TextView textView = (TextView) view.findViewById(R.id.text_view);
             textView.setText(Sections.values()[position].getName());
             textView.setTextColor(new ViewUtil(getActivity()).getListViewTextColor());

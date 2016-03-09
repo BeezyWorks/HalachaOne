@@ -22,7 +22,7 @@ public enum Book {
     }
 
     public void saveAsDefault(SettingsUtil settingsUtil){
-        settingsUtil.getSharedPreferences().edit().putString(saveKey, this.getName()).apply();
+        settingsUtil.getSharedPreferences().edit().putString(saveKey, this.getName()).commit();
     }
 
     public static Book getDefaultBook(SettingsUtil settingsUtil){

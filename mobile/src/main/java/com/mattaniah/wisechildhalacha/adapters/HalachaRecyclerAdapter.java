@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -161,13 +162,13 @@ public class HalachaRecyclerAdapter extends RecyclerView.Adapter<HalachaRecycler
     }
 
     private class SeifHeaderViewHolder extends HalachaViewHolder implements View.OnClickListener {
-        TextView textView;
+        Button textView;
 //        ImageView bookmarkButton;
         SeifHeader seif;
 
         public SeifHeaderViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.seif_textview);
+            textView = (Button) itemView.findViewById(R.id.seif_textview);
             textView.setTextColor(viewUtil.getSeifHeaderTextColor());
 
         }

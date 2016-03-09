@@ -1,15 +1,18 @@
 package com.mattaniah.wisechildhalacha.bookmarking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mattaniah.wisechildhalacha.helpers.Book;
 import com.mattaniah.wisechildhalacha.helpers.Sections;
+import com.mattaniah.wisechildhalacha.services.BookmarkSaveService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Mattaniah on 1/24/2016.
@@ -74,10 +77,49 @@ public class BookmarkManager {
             simanBookmarks.remove(seif);
     }
 
+    public void saveBookmarksAsync(Context context){
+        context.startService(new Intent(context, BookmarkSaveService.class));
+    }
+
     public void saveBookmarks(Context context) {
+        cleanOutUnusedSections();
         PreferenceManager.getDefaultSharedPreferences(context).edit()
                 .putString(parseBookmarkKey, new Gson().toJson(allBookmarks)).apply();
     }
 
+    private void cleanOutUnusedSections() {
+        Map<Sections, Map<Book, Map<Integer, Map<Integer, String>>>> wholeMap = new HashMap<>(allBookmarks);
+        Set<Sections> sectionsSet = wholeMap.keySet();
+        for (Sections sections : sectionsSet) {
+            Set<Book> bookSet = wholeMap.get(sections).keySet();
+            HashMap<Book, Map<Integer, Map<Integer, String>>> sectionsMap = new HashMap<>(wholeMap.get(sections));
+            for (Book book : sectionsMap.keySet()) {
+                Map<Integer, Map<Integer, String>> bookMap = new HashMap<>(sectionsMap.get(book));
+                Set<Integer> simanSet = bookMap.keySet();
+                for (Integer siman : simanSet) {
+                    Map<Integer, String> seifim = bookMap.get(siman);
+                    if (seifim.isEmpty())
+                        allBookmarks.get(sections).get(book).remove(siman);
+                }
+                if (allBookmarks.get(sections).get(book).isEmpty())
+                    allBookmarks.get(sections).remove(book);
+            }
+            if (allBookmarks.get(sections).isEmpty())
+                allBookmarks.remove(sections);
+        }
+    }
 
+    public Map<Sections, Map<Book, Map<Integer, Map<Integer, String>>>> getAllBookmarks() {
+        return allBookmarks;
+    }
+
+    public void remove(Book book) {
+        Set<Sections> keySet = allBookmarks.keySet();
+        for (Sections section : keySet)
+            allBookmarks.get(section).remove(book);
+    }
+
+    public void addAll(Map<Sections, Map<Book, Map<Integer, Map<Integer, String>>>> addMap){
+        allBookmarks.putAll(addMap);
+    }
 }

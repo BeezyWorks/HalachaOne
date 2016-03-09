@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.mattaniah.wisechildhalacha.R;
 import com.mattaniah.wisechildhalacha.fragments.BookmarkViewerFragment;
@@ -30,6 +31,7 @@ public class BookmarksActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new BookmarkFragmentAdapter());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.findViewById(R.id.rightDrawerToggle).setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

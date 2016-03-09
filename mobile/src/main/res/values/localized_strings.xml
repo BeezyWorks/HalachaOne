@@ -36,4 +36,8 @@ Pro an discere posidonium, cu dico delicatissimi vel. Ne modo ignota nec, eum ap
     <string name="notificationSwitchTextDisabled">Notifications Disabled</string>
     <string name="display_options">Display Options</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="bookmarkDeleted">Bookmark Deleted</string>
+    <string name="allBookmarksDeleted">All Bookmarks Deleted</string>
+    <string name="undo">Undo</string>
+    <string name="noBookmarks">No Bookmarks</string>
 </resources>
