@@ -21,6 +21,7 @@ import com.mattaniah.wisechildhalacha.R;
 import com.mattaniah.wisechildhalacha.goaltracking.GoalNotifications;
 import com.mattaniah.wisechildhalacha.goaltracking.GoalView;
 import com.mattaniah.wisechildhalacha.goaltracking.TimeTracker;
+import com.mattaniah.wisechildhalacha.helpers.CommonIntents;
 import com.mattaniah.wisechildhalacha.helpers.SettingsUtil;
 
 
@@ -36,19 +37,19 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stats_layout);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.cancel(GoalNotifications.goalNotiId);
+        NotificationManagerCompat.from(this).cancel(GoalNotifications.goalNotiId);
 
         timeTracker = new TimeTracker(this);
-        settingsUtil=new SettingsUtil(this);
+        settingsUtil = new SettingsUtil(this);
 
         goalView = new GoalView(this, settingsUtil.getGoalTime(), timeTracker.getTimeSoFarToday());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        assert toolbar!=null;
         toolbar.inflateMenu(R.menu.stats_menu);
         toolbar.setOnMenuItemClickListener(this);
         toolbar.setTitle(getString(R.string.app_name) + " " + getString(R.string.statsString));
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,25 +58,30 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
         });
 
         TextView statBox = (TextView) findViewById(R.id.statBox);
+        assert statBox!=null;
         statBox.setText(timeTracker.getTotalTimeAsString());
 
         FrameLayout goalCircleFrame = (FrameLayout) findViewById(R.id.goalCircleFrame);
+        assert goalCircleFrame!=null;
         goalCircleFrame.addView(goalView);
         goalCircleFrame.setOnClickListener(this);
 
         View fab = findViewById(R.id.shareButton);
+        assert fab!=null;
         fab.setOnClickListener(this);
 
         final SettingsUtil settingsUtil = new SettingsUtil(this);
         SwitchCompat switchCompat = (SwitchCompat) findViewById(R.id.notificationSwitch);
         final TextView switchText = (TextView) findViewById(R.id.notificationText);
+        assert switchText!=null;
+        assert switchCompat!=null;
         switchCompat.setChecked(settingsUtil.isGoalNotificaitonEnabled());
         switchText.setText(settingsUtil.isGoalNotificaitonEnabled() ? R.string.notificationSwitchTextEnabled : R.string.notificationSwitchTextDisabled);
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 settingsUtil.setGoalNotificationEnabled(isChecked);
-                switchText.setText(isChecked? R.string.notificationSwitchTextEnabled: R.string.notificationSwitchTextDisabled);
+                switchText.setText(isChecked ? R.string.notificationSwitchTextEnabled : R.string.notificationSwitchTextDisabled);
             }
         });
     }
@@ -107,7 +113,7 @@ public class StatsActivity extends AppCompatActivity implements Toolbar.OnMenuIt
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shareButton:
-
+                CommonIntents.safeLaunchIntent(this, new CommonIntents(this).shareStatsIntent(timeTracker), getString(R.string.selectShareApp));
                 break;
             case R.id.goalCircleFrame:
                 setGoal();

@@ -18,9 +18,10 @@ android {
         applicationId "com.mattaniah.wisechildhalacha"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 2
-        versionName "beta"
+        versionCode 4
+        versionName "1.0"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {

@@ -77,7 +77,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="-32dp"
         android:background="@color/accent"
-        android:src="@drawable/abc_ic_menu_share_material"
+        app:srcCompat="@drawable/ic_share"
         android:tint="@android:color/white"
         app:borderWidth="0dp"/>
     <FrameLayout

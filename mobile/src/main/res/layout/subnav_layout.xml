@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:elevation="4dp"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"/>
 
     <ListView
         android:id="@+id/subnav_listview"
@@ -20,6 +20,6 @@
         android:layout_alignParentTop="true"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"></ListView>
+        android:dividerHeight="0dp"/>
 
 </RelativeLayout>

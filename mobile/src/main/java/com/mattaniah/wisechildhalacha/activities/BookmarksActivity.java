@@ -31,6 +31,7 @@ public class BookmarksActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new BookmarkFragmentAdapter());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        assert toolbar!=null;
         toolbar.findViewById(R.id.rightDrawerToggle).setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions

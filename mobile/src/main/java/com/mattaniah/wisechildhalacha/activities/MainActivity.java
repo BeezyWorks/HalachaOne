@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements HostActivity, MyG
                 return true;
             case R.id.contactUs:
                 CommonIntents commonIntents = new CommonIntents(this);
-                commonIntents.safeLaunchIntent(commonIntents.contactUsIntent(), "Select Email");
+                CommonIntents.safeLaunchIntent(this, commonIntents.contactUsIntent(), "Select Email");
                 return true;
 
             case R.id.bookmarks:

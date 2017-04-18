@@ -4,14 +4,7 @@
     <string name="app_name">Halacha</string>
     <string name="aboutString">About</string>
     <string name="versionString">"Version "</string>
-    <string name="about_paragraph">Lorem ipsum dolor sit amet, an offendit adolescens nec. Purto consul te vis, posse tantas officiis at duo. Unum corpora te nam. Quaeque ponderum pri in, eos ex alterum docendi. Regione mediocritatem ea eam, sed dolore epicuri cu, at altera albucius consequat sit. Summo persius periculis sed te.
-
-His ad facete pertinax. Ea amet sententiae nec. Iudico eruditi commune ex vel, no has brute accusam, postea everti pericula at eum. Te pro soleat verear contentiones. Per errem ubique equidem te, justo eripuit vis id.
-
-Summo utinam mollis in pro, eos offendit oporteat platonem an, ius aeterno eleifend ut. Id ius alii nemore, nec ex tation reprimique. In quis constituto eum, ne illum phaedrum pro. Pri mollis moderatius intellegebat et, no cum graeco utroque facilisis. Ad pri illum oporteat philosophia, id duo labores iracundia definitiones, sint mutat deterruisset an duo. An vel aperiri feugiat, at inani delicata his, nemore mandamus voluptaria eu ius.
-
-Pro an discere posidonium, cu dico delicatissimi vel. Ne modo ignota nec, eum aperiam suscipiantur in, mea quaestio argumentum cu. Nominati tincidunt ex has. Veri congue vix ei.</string>
-
+    <string name="about_paragraph"><i><b>אִם לֹא בְרִיתִי יוֹמָם וָלָיְלָה חֻקּוֹת שָׁמַיִם וָאָרֶץ לֹא שָׂמְתִּי\nירמיהו לג:כה\n</b></i>\nHalacha is the living covenant that binds the Jewish people to our God and fills our lives with meaning. The act of engaging with the Divine Law, both learning it and practicing it, connects us to a tradition that has lasted millennia and infuse everyday life the transcendent. While many people may wash their hands before they eat, when the Halachically observant Jew does so they touch eternity. The fact of Halacha’s complexity and breadth shows us that Holiness ought not, and indeed does not, live in designated spaces. Law gives us opportunities to seek out and encounter sanctity everywhere. By subjecting ourselves to the ordinances and statutes of the Lord of Creation, we elevate ourselves above selfishness and become creatures of purpose, obligation and responsibility. \n\nThis volume, Orach Chayim - The Way of Life, focuses on ritual law. It covers the basic practices for everyday life and holidays.</string>
     <string name="timeLearnedString">You\'ve learned for</string>
     <string name="statsString">Stats</string>
     <string name="myGoalString">My Goal</string>
@@ -40,4 +33,8 @@ Pro an discere posidonium, cu dico delicatissimi vel. Ne modo ignota nec, eum ap
     <string name="allBookmarksDeleted">All Bookmarks Deleted</string>
     <string name="undo">Undo</string>
     <string name="noBookmarks">No Bookmarks</string>
+    <string name="iveLearnedString">I\'ve learned</string>
+    <string name="withString">with</string>
+    <string name="checkItOutAt">Check it out at</string>
+    <string name="selectShareApp">Select Share App</string>
 </resources>

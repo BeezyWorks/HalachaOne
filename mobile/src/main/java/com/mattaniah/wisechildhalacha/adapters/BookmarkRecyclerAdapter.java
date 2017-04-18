@@ -238,7 +238,6 @@ public class BookmarkRecyclerAdapter extends RecyclerView.Adapter {
     public void deleteAll() {
         final List<Object> removedData = new ArrayList<>(dataSet);
         dataSet.clear();
-        final Map<Sections, Map<Book, Map<Integer, Map<Integer, String>>>> deletedBookmarks = BookmarkManager.getInstance().getAllBookmarks();
         BookmarkManager.getInstance().remove(book);
         notifyDataSetChanged();
         Snackbar.make(recyclerView, R.string.allBookmarksDeleted, Snackbar.LENGTH_SHORT)
@@ -246,7 +245,10 @@ public class BookmarkRecyclerAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         dataSet.addAll(removedData);
-                        BookmarkManager.getInstance().addAll(deletedBookmarks);
+                        for (Object object :removedData){
+                            if (object instanceof SeifModel)
+                                BookmarkManager.getInstance().addBookmark((SeifModel)object);
+                        }
                         notifyDataSetChanged();
                     }
                 }).show();

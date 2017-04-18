@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mattaniah.wisechildhalacha.helpers.Book;
 import com.mattaniah.wisechildhalacha.helpers.Sections;
+import com.mattaniah.wisechildhalacha.models.SeifModel;
 import com.mattaniah.wisechildhalacha.services.BookmarkSaveService;
 
 import java.util.HashMap;
@@ -71,6 +72,10 @@ public class BookmarkManager {
         simanBookmarks.put(seif, bookMark);
     }
 
+    public void addBookmark(SeifModel seifModel){
+        addBookmark(seifModel.getSection(), seifModel.getBook(), seifModel.getSiman(), seifModel.getSeif(), seifModel.getBookmark());
+    }
+
     public void removeBookmark(Sections section, Book book, int siman, int seif) {
         Map<Integer, String> simanBookmarks = getBookmarksForSiman(section, book, siman);
         if (simanBookmarks != null && simanBookmarks.containsKey(seif))
@@ -91,17 +96,18 @@ public class BookmarkManager {
         Map<Sections, Map<Book, Map<Integer, Map<Integer, String>>>> wholeMap = new HashMap<>(allBookmarks);
         Set<Sections> sectionsSet = wholeMap.keySet();
         for (Sections sections : sectionsSet) {
-            Set<Book> bookSet = wholeMap.get(sections).keySet();
             HashMap<Book, Map<Integer, Map<Integer, String>>> sectionsMap = new HashMap<>(wholeMap.get(sections));
             for (Book book : sectionsMap.keySet()) {
-                Map<Integer, Map<Integer, String>> bookMap = new HashMap<>(sectionsMap.get(book));
-                Set<Integer> simanSet = bookMap.keySet();
-                for (Integer siman : simanSet) {
-                    Map<Integer, String> seifim = bookMap.get(siman);
-                    if (seifim.isEmpty())
-                        allBookmarks.get(sections).get(book).remove(siman);
+                if (sectionsMap.get(book)!=null) {
+                    Map<Integer, Map<Integer, String>> bookMap = new HashMap<>(sectionsMap.get(book));
+                    Set<Integer> simanSet = bookMap.keySet();
+                    for (Integer siman : simanSet) {
+                        Map<Integer, String> seifim = bookMap.get(siman);
+                        if (seifim.isEmpty())
+                            allBookmarks.get(sections).get(book).remove(siman);
+                    }
                 }
-                if (allBookmarks.get(sections).get(book).isEmpty())
+                if (allBookmarks.get(sections).get(book)==null||allBookmarks.get(sections).get(book).isEmpty())
                     allBookmarks.get(sections).remove(book);
             }
             if (allBookmarks.get(sections).isEmpty())
@@ -119,7 +125,9 @@ public class BookmarkManager {
             allBookmarks.get(section).remove(book);
     }
 
-    public void addAll(Map<Sections, Map<Book, Map<Integer, Map<Integer, String>>>> addMap){
-        allBookmarks.putAll(addMap);
+    public void add(Sections sections, Book book,  Map<Integer, Map<Integer, String>> map){
+        if (allBookmarks.get(sections).isEmpty())
+            allBookmarks.put(sections, new HashMap<Book, Map<Integer, Map<Integer, String>>>());
+        allBookmarks.get(sections).put(book, map);
     }
 }

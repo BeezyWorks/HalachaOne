@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -23,7 +24,7 @@
         android:id="@+id/deleteButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/abc_ic_clear_material"
+        app:srcCompat="@drawable/ic_delete"
         android:tint="@android:color/white"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@color/accent"/>

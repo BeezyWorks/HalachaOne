@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_height="@dimen/abc_action_bar_default_height_material"
     android:layout_width="match_parent"
@@ -14,6 +15,6 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"
         android:rotation="180"
-        android:src="@drawable/abc_ic_go_search_api_material"
+        app:srcCompat="@drawable/ic_chevron_right"
         android:tint="@color/primary_text_default_material_dark" />
 </android.support.v7.widget.Toolbar>
